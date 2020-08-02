@@ -39,8 +39,11 @@ function Cube(props) {
       onPointerOver={() => setIsHovered(true)}
       onPointerOut={() => setIsHovered(false)}
     >
+      {/*boxBufferGeometry -  a type of primitive*/}
+      {/* buffer === more performant ->  Good for beginners*/}
+      {/* boxGeometry is less performant than boxBufferGeometry */}
       {/* args={[1,1,1]} = [width, height, depth] */}
-      <boxBufferGeometry attach="geometry" args={[1, 2, 1]} />
+      <boxBufferGeometry attach="geometry" args={[2, 2, 1]} />
       <meshStandardMaterial attach="material" color={color} />
     </a.mesh>
   );
@@ -56,9 +59,9 @@ function Scene() {
     <>
       <ambientLight />
       {/* intensity-> 0 to 1 */}
-      <pointLight intensity={0.5} position={[-1, 2, 4]} />
-      <Cube rotation={[10, 10, 10]} position={[1, 0, 0]} speed={0.05} />
-      <Cube rotation={[10, 10, 0]} position={[-1, 0, 0]} speed={-0.05} />
+      <pointLight intensity={0.5} position={[-1, 2, 3]} />
+      <Cube rotation={[10, 10, 10]} position={[1, -1, 0]} speed={0.05} />
+      <Cube rotation={[10, 10, 10]} position={[0, 3, -5]} speed={-0.02} />
       <orbitControls args={[camera, domElement]} />
     </>
   );
