@@ -39,9 +39,59 @@ function Cube(props) {
       onPointerOver={() => setIsHovered(true)}
       onPointerOut={() => setIsHovered(false)}
     >
-      {/* args={[1,1,1]} = [width, height, depth] */}
-      <boxBufferGeometry attach="geometry" args={[1, 2, 1]} />
-      <meshStandardMaterial attach="material" color={color} />
+      {/* GEOMETRY TYPES */}
+      {/*boxBufferGeometry -  a type of primitive*/}
+      {/* buffer === more performant ->  Good for beginners*/}
+      {/* boxGeometry is less performant than boxBufferGeometry */}
+      {/* Primtive === basic shape */}
+      {/* BOX args={[1,1,1]} = [width, height, depth] */}
+      {/* <boxBufferGeometry attach="geometry" args={[1, 1, 1]} /> */}
+      {/* SPHERE args={[1,1,1]} = (radius : Float, widthSegments : Integer, heightSegments : Integer, phiStart : Float, phiLength : Float, thetaStart : Float, thetaLength : Float) */}
+      <sphereBufferGeometry attach="geometry" args={[1, 20, 20]} />
+      {/* Circle args={[1,1]} = [radius, segments] */}
+      {/* <circleBufferGeometry attach="geometry" args={[2, 32]} /> */}
+      {/* Cone args:
+          radius — Radius of the cone base. Default is 1.
+          height — Height of the cone. Default is 1.
+          radialSegments — Number of segmented faces around the circumference of the cone. Default is 8
+          heightSegments — Number of rows of faces along the height of the cone. Default is 1. */}
+      {/* <coneBufferGeometry attach="geometry" args={[1, 3, 20]} /> */}
+      {/* TorusKnot args:
+          radius - Radius of the torus. Default is 1.
+          tube — Radius of the tube. Default is 0.4.
+          tubularSegments — Default is 64.
+          radialSegments — Default is 8.
+          p — This value determines, how many times the geometry winds around its axis of rotational symmetry. Default is 2.
+          q — This value determines, how many times the geometry winds around a circle in the interior of the torus. Default is 3.
+      */}
+      {/* <torusKnotBufferGeometry attach="geometry" args={[1, 0.4, 100, 100]} /> */}
+      {/* MATERIALS */}
+      {/* <meshStandardMaterial  attach="material" color={color} /> */}
+      {/* <meshStandardMaterial
+        roughness={0.5}
+        // wireframe={true}
+        metalness={0.5}
+        attach="material"
+        color={color}
+      /> */}
+
+      {/* <meshPhysicalMaterial
+        roughness={0.5}
+        metalness={0.5}
+        clearcoat={1}
+        attach="material"
+        color={color}
+      /> */}
+
+      {/* MeshPhong - good for shiny surfaces  --- MeshLambert for not shiny*/}
+      <meshPhongMaterial
+        flatShading={true}
+        shininess={50}
+        roughness={1}
+        metalness={0.5}
+        attach="material"
+        color={color}
+      />
     </a.mesh>
   );
 }
@@ -56,9 +106,10 @@ function Scene() {
     <>
       <ambientLight />
       {/* intensity-> 0 to 1 */}
-      <pointLight intensity={0.5} position={[-1, 2, 4]} />
-      <Cube rotation={[10, 10, 10]} position={[1, 0, 0]} speed={0.05} />
-      <Cube rotation={[10, 10, 0]} position={[-1, 0, 0]} speed={-0.05} />
+      <pointLight intensity={0.5} position={[-1, 2, 3]} />
+      <Cube rotation={[10, 10, 10]} position={[1, -1, 0]} speed={0.03} />
+      <Cube rotation={[10, 10, 10]} position={[0, 3, -5]} speed={-0.02} />
+      {/* allow the user to spin/rotate scene */}
       <orbitControls args={[camera, domElement]} />
     </>
   );
