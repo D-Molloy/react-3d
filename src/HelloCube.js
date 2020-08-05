@@ -20,9 +20,9 @@ function Cube(props) {
     // ref.current.rotation.x += -0.01;
   });
 
-  const { size, x } = useSpring({
+  const { size, z } = useSpring({
     size: isBig ? [2, 2, 2] : [1, 1, 1],
-    x: isBig ? 2 : 0,
+    z: isBig ? -2 : 0,
   });
 
   const color = isHovered ? "orange" : "#9281D1";
@@ -31,10 +31,13 @@ function Cube(props) {
     // rotation={[10, 10, 0]} = [x,y,z]
     // a is a react-spring wrapper
     <a.mesh
-      ref={ref}
       {...props}
+      ref={ref}
       scale={size}
-      position-x={x}
+      position-z={z}
+      // receiving because cubes could block the light for the other spheres
+      castShadow={true}
+      receiveShadow={true}
       onClick={() => setIsBig(!isBig)}
       onPointerOver={() => setIsHovered(true)}
       onPointerOut={() => setIsHovered(false)}
@@ -86,13 +89,27 @@ function Cube(props) {
       {/* MeshPhong - good for shiny surfaces  --- MeshLambert for not shiny*/}
       <meshPhongMaterial
         flatShading={true}
-        shininess={50}
         roughness={1}
         metalness={0.5}
+        shininess={100}
         attach="material"
         color={color}
       />
     </a.mesh>
+  );
+}
+
+function Plane() {
+  // meshes must can CAST and RECIEVE shadows, but in this case the plane is just going to receive the shadow
+  return (
+    <mesh
+      receiveShadow={true}
+      rotation={[-Math.PI / 2, 0, 0]}
+      position={[0, -2, -5]}
+    >
+      <planeBufferGeometry attach="geometry" args={[20, 30]} />
+      <meshPhongMaterial attach="material" color="#D3D3D3" />
+    </mesh>
   );
 }
 
@@ -104,12 +121,25 @@ function Scene() {
 
   return (
     <>
+      {/* 
+      AmbientLight
+
+        This light globally illuminates all objects in the scene equally.
+
+        **** This light cannot be used to cast shadows as it does not have a direction. ****
+    */}
+      {/* ambient light color attribute-  // color="green"  will override the color set on the material */}
       <ambientLight />
       {/* intensity-> 0 to 1 */}
-      <pointLight intensity={0.5} position={[-1, 2, 3]} />
-      <Cube rotation={[10, 10, 10]} position={[1, -1, 0]} speed={0.03} />
-      <Cube rotation={[10, 10, 10]} position={[0, 3, -5]} speed={-0.02} />
+      {/* position={[x, y, z(pos towards screen, neg away)]} */}
+      {/* point light - a single point emitted in ALL directions */}
+      {/* <pointLight castShadow={true} intensity={0.6} position={[0, 3, 3]} /> */}
+      {/* spotLight - a cone that gets bigger the further away it goes */}
+      <spotLight castShadow={true} intensity={0.6} position={[2, 5, 4]} />
+      <Cube rotation={[10, 10, 0]} position={[0, 0, 0]} speed={0.02} />
+      <Cube rotation={[10, 20, 0]} position={[2, 2, 0]} speed={0.03} />
       {/* allow the user to spin/rotate scene */}
+      <Plane />
       <orbitControls args={[camera, domElement]} />
     </>
   );
@@ -118,7 +148,11 @@ function Scene() {
 function App() {
   // react-three-fiber provides a camera through the canvas
   return (
-    <Canvas>
+    /**
+     * SHADOWS (needs to be applied/registered with all involved)
+     * shadowMap  -  castShadow  - recieveShadow
+     */
+    <Canvas shadowMap={true}>
       <Scene />
     </Canvas>
   );
