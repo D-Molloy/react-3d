@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { OrbitControls, Torus } from "drei";
 import { Canvas, useFrame } from "react-three-fiber";
 import { a, useSpring } from "react-spring/three";
+import { Controls, useControl } from "react-three-gui";
 import "./App.css";
 
 function Cube(props) {
@@ -58,12 +59,27 @@ function Plane() {
 }
 
 function Scene() {
+  // react-three-gui controls are for
+  //   type allows for a specific type of input
+  const positionX = useControl("Pos. X", { type: "number", max: 5, min: -5 });
+  //   Rotation - xypad is currently broken
+  //   const { x, y } = useControl("Rot. X", { type: "xypad" });
+  const positionY = useControl("Pos. Y ", { type: "number" });
+  const positionZ = useControl("Pos. Z", { type: "number" });
+  const torusColor = useControl("Torus Color", {
+    type: "color",
+    value: "gold",
+  });
   return (
     <>
       <ambientLight />
       <spotLight castShadow={true} intensity={0.6} position={[2, 5, 4]} />
-      <Cube rotation={[10, 10, 0]} position={[0, 0, 0]} speed={0.02} />
-      <Cube rotation={[10, 20, 0]} position={[2, 2, 0]} speed={0.03} />
+      <Cube
+        rotation={[10, 10, 0]}
+        position={[positionX, positionY, positionZ]}
+        speed={0.02}
+      />
+      <Cube rotation={[10, 0, 0]} position={[2, 2, 0]} speed={-0.03} />
       {/*   radius - Radius of the torus, from the center of the torus to the center of the tube. Default is 1.
             tube — Radius of the tube. Default is 0.4.
             radialSegments — Default is 8
@@ -78,11 +94,11 @@ function Scene() {
       >
         <meshPhongMaterial
           flatShading={true}
-          roughness={1}
-          metalness={0.5}
+          roughness={0.5}
+          metalness={1}
           shininess={100}
           attach="material"
-          color="gold"
+          color={torusColor}
         />
       </Torus>
       <Plane />
@@ -93,9 +109,12 @@ function Scene() {
 
 function App() {
   return (
-    <Canvas shadowMap={true}>
-      <Scene />
-    </Canvas>
+    <>
+      <Canvas shadowMap={true}>
+        <Scene />
+      </Canvas>
+      <Controls />
+    </>
   );
 }
 
