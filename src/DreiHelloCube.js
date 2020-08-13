@@ -6,7 +6,7 @@ import { Controls, useControl } from "react-three-gui";
 import { TextureLoader } from "three";
 import "./App.css";
 // import joeImg from "./img/JOE.png";
-// import denisImg from "./img/DENIS.png";
+import denisImg from "./img/DENIS.png";
 import logoImg from "./img/logo.png"
 // commented out because the logo border messed up the displacement map
 // import logoBump from "./img/logo2.png"
@@ -125,14 +125,14 @@ function Scene() {
         />
       </Suspense>
       {/* Commented out to avoid bumping my img  */}
-      {/* <Suspense fallback={null}>
+      <Suspense fallback={null}>
         <Cube
           rotation={[0, 0, 0]}
           position={[2, 2, 0]}
           speed={-0.03}
           img={denisImg}
         />
-      </Suspense> */}
+      </Suspense>
       {/*   radius - Radius of the torus, from the center of the torus to the center of the tube. Default is 1.
             tube — Radius of the tube. Default is 0.4.
             radialSegments — Default is 8
