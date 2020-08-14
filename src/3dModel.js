@@ -19,7 +19,7 @@ function Scene() {
 	return (
 		<>
 			<ambientLight />
-			<pointLight intensity={0.6} position={[0, 10, 4]} />
+			<pointLight intensity={0.6} position={[0, 5, 4]} />
 			<Suspense fallback={null}>
 				<Plant />
 			</Suspense>

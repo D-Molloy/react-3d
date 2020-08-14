@@ -6,11 +6,36 @@ html,
 body,
 #root {
   width: 100%;
-  height: 100%;
+  height: 90%;
   margin: 0;
   padding: 0;
 }
 
 body {
   background: #6350aa;
+}
+
+h1 {
+  font-size: 4rem;
+  text-align: center;
+  color: #03ad01;
+  text-shadow: 4px 3px 0px darkslateblue, 9px 8px 0px rgba(0, 0, 0, 0.15);
+  margin-bottom: 0;
+}
+
+main {
+  margin-top: -80px;
+  padding: 4rem 10% 21rem;
+  background: grey;
+  text-align: center;
+}
+
+button {
+  background-color: darkslateblue;
+  color: white;
+  font-size: 2rem;
+  border: none;
+  border-radius: 15px;
+  padding: 8px 20px;
+  box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
 }
